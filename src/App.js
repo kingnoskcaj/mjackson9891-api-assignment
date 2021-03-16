@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import _ from 'lodash';
 import React from 'react';
 import Posts from './posts';
@@ -15,14 +14,15 @@ class App extends React.Component {
   
 
   state = {
-    currentSubreddit: 'gaming',
+    home: 'all',
+    currentSubreddit: 'all',
     sort: 'hot',
-    files: [],
-    favourites: []
+    files: []
   };
 
   componentDidMount() {
     this.changeSubreddit(this.state.currentSubreddit);
+    
   }
 
   changeSubreddit(sub) {
@@ -42,12 +42,11 @@ class App extends React.Component {
   }
 
   searchSubreddit(subreddit) {
-    this.changeSubreddit(subreddit);
-  }
-
-  handleClick() {
-    this.state.favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-    this.state.files = this.state.favourites;
+    if (subreddit.length !== 0) {
+      this.changeSubreddit(subreddit);
+    } else {
+      this.changeSubreddit(this.home);
+    }
   }
 
   render() {
@@ -63,7 +62,14 @@ class App extends React.Component {
       <div className="container">
         <button
                 className="btn btn-default"
-                onClick={this.handleClick}>Favourites</button>
+                onClick={ (e) => {
+                  let favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+                  this.setState({
+                    files: favourites
+                  });
+                  console.log('favourites : ' + favourites);
+                  console.log('files : ' + this.state.files);
+                }}>Favourites</button>
         <SearchBar onSearchTermChange={term => searchSubreddit(term)} />
         <br />
         {contentJSX}
