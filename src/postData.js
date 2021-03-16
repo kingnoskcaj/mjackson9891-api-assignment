@@ -1,20 +1,46 @@
+/*
+*	FILE : postData.js
+*	PROJECT : SEBG3080 - Frontend Programming assignment
+*	PROGRAMMER : Mark Jackson
+*	FIRST VERSION : 2021-03-14
+*	DESCRIPTION :
+*		this builds the individual posts
+*/
 import React from 'react';
-import App from './App';
 
 const PostData = ({ file }) => {
+    /*when the button is clicked, add or remove from the favourites depending on of we are looking at them*/
     function handleClick() {
+        /*get them from the stored data*/
         let favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-        favourites.push(file);
+        /*check if we are looking at them*/
+        let viewFavourites = localStorage.getItem("viewFav");
+        if(viewFavourites === 'true'){
+            /*are are looking at them*/
+            /*remove from array*/
+            favourites.splice(favourites.findIndex(element=> element===file), 1);
+        } else{
+            /*we are looking at new posts*/
+            /*add to the array*/
+            favourites.push(file);
+        }
+        /*push the favourites back to the storage*/
         localStorage.setItem("favourites", JSON.stringify(favourites));
-        console.log(favourites);
       }
     return (
         <div>
-            {console.log(file)}
-            <a href={file.data.url}>{file.data.title}</a>
-            <button
-                className="btn btn-default"
-                onClick={handleClick}>Favourite</button>
+            <table>
+                <tr>
+                    <td>
+                        <a href={file.data.url}>{file.data.title}</a>
+                    </td>
+                    <td>
+                    <button onClick={handleClick}>Favourite</button>
+                    </td>
+                </tr>
+            </table>
+            
+            
         </div>
     );
 }

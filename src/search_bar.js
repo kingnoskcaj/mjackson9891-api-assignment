@@ -17,7 +17,7 @@ class SearchBar extends React.Component {
                 <div className="input-group-prepend">
                     <div className="input-group-text">r/</div>
                 </div>
-                <input type="text" className="form-control" onChange={event => this.search(event.target.value)} value={this.state.term} name="search" placeholder="wallpapers"/>
+                <input type="text" className="form-control" onChange={event => this.search(event.target.value)} value={this.state.term} name="search" placeholder="all"/>
             </div>
         </div>
     );
